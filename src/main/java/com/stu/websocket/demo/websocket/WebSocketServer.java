@@ -21,7 +21,7 @@ public class WebSocketServer {
 
     private static AtomicInteger onlineNum = new AtomicInteger();
 
-    private static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
 
     //发送消息
     private synchronized void sendMessage(Session session, String message) throws IOException {
