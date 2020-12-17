@@ -15,7 +15,7 @@ public class LoginController {
     @RequestMapping("/login")
     public ModelAndView login(String username) throws Exception {
         if (WebSocketServer.sessionPools.get(username) != null) {
-            throw new Exception("对不起, 当前用户已连接.");
+            throw new Exception("对不起, 当前用户已经连接.");
         }
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("username", username);
