@@ -33,7 +33,7 @@
 
 <div>
     请输入你想发送的消息: <label for="input"></label><input id="input" type="text"><br>
-    请输入你想发送的用户: <label for="input"></label><input id="inputUser" value="robot" type="text"><br>
+    请输入你想发送的用户: <label for="inputUser"></label><input id="inputUser" value="robot" type="text"><br>
     <button onclick="send()">发送</button>
     <br>
 </div>
