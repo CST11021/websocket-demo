@@ -15,8 +15,20 @@
     };
     webSocket.onmessage = function (ev) {
         var newEle = document.createElement("p");
-        newEle.innerHTML = ev.data;
-        console.log(ev.data);
+        var newEle1 = document.createElement("p");
+        var data = ev.data;
+        var ss = data.split("$$");
+        if (ss.length > 1) {
+            newEle.innerHTML = ss[0];
+            newEle1.innerHTML = ss[1];
+            var parent = document.getElementById("online");
+            if(parent.firstChild!=null){
+                parent.removeChild(parent.firstChild);
+            }
+            parent.appendChild(newEle1).appendChild(document.createElement("br"));
+        } else {
+            newEle.innerHTML = data;
+        }
         document.getElementById("sendInfo").appendChild(newEle).appendChild(document.createElement("br"));
     };
 
@@ -39,6 +51,10 @@
 </div>
 
 <div id="sendInfo"></div>
+
+<div id="online">
+
+</div>
 
 
 </body>

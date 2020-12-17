@@ -47,7 +47,9 @@ public class WebSocketServer {
         addOnlineCount();
         System.out.println(username + "加入webSocket！当前人数为" + onlineNum);
         try {
-            sendMessage(session, "系统消息: 欢迎" + username + "加入连接！");
+            for (Session s : sessionPools.values()) {
+                sendMessage(s, "系统消息: 欢迎" + username + "加入连接！$$当前在线人数: " + onlineNum);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +70,7 @@ public class WebSocketServer {
         String[] split = message.split("\\|");
         if (message.contains("robot")) {
             // 机器人 http://api.qingyunke.com/api.php?key=free&appid=0&msg=
-            sendMessage(sessionPools.get(split[1]), "robot: " + JSONObject.parseObject(HttpUtil.get("http://api.qingyunke.com/api.php?key=free&appid=0&msg=" + split[1])).get("content").toString());
+            sendMessage(sessionPools.get(split[1]), "from[robot]: " + JSONObject.parseObject(HttpUtil.get("http://api.qingyunke.com/api.php?key=free&appid=0&msg=" + split[1])).get("content").toString());
         } else {
             sendInfo(split[0], "from[" + split[1] + "]: " + split[2]);
         }
