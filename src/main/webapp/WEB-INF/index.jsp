@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text/html;charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,30 +8,33 @@
 <body>
 
 <script type="text/javascript">
+    var name = "${username}";
     var webSocket = new WebSocket("ws://localhost:8080/webSocket/${username}");
-    console.log("........");
     webSocket.onopen = function () {
-        alert("恭喜你成功连接.");
+        alert("恭喜[${username}]成功连接.");
     };
     webSocket.onmessage = function (ev) {
         var newEle = document.createElement("p");
         newEle.innerHTML = ev.data;
+        console.log(ev.data);
         document.getElementById("sendInfo").appendChild(newEle).appendChild(document.createElement("br"));
     };
 
     function send() {
+        var user = document.getElementById("inputUser").value;
         var msg = document.getElementById("input").value;
-        webSocket.send(msg);
+        webSocket.send(user + "|" + name + "|" + msg);
         var newEle = document.createElement("p");
-        newEle.innerHTML = msg;
+        newEle.innerHTML = "to[" + user + "]: " + msg;
         document.getElementById("sendInfo").appendChild(newEle).appendChild(document.createElement("br"));
     }
 
 </script>
 
 <div>
-    请输入你想发送的消息: <label for="input"></label><input id="input" type="text">
-    <button onclick="send()">发送消息</button>
+    请输入你想发送的消息: <label for="input"></label><input id="input" type="text"><br>
+    请输入你想发送的用户: <label for="input"></label><input id="inputUser" value="robot" type="text"><br>
+    <button onclick="send()">发送</button>
     <br>
 </div>
 
