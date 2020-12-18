@@ -57,10 +57,13 @@ public class WebSocketServer {
 
     //关闭连接时调用
     @OnClose
-    public void onClose(@PathParam(value = "sid") String userName) {
+    public void onClose(@PathParam(value = "sid") String userName) throws IOException {
         sessionPools.remove(userName);
         subOnlineCount();
         System.out.println(userName + "断开webSocket连接！当前人数为" + onlineNum);
+        for (Session s : sessionPools.values()) {
+            sendMessage(s, userName + "断开连接！$$当前在线人数: " + onlineNum);
+        }
     }
 
     //收到客户端信息
