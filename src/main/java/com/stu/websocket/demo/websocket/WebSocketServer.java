@@ -70,7 +70,7 @@ public class WebSocketServer {
         String[] split = message.split("\\|");
         if (message.contains("robot")) {
             // 机器人 http://api.qingyunke.com/api.php?key=free&appid=0&msg=
-            sendMessage(sessionPools.get(split[1]), "from[robot]: " + JSONObject.parseObject(HttpUtil.get("http://api.qingyunke.com/api.php?key=free&appid=0&msg=" + split[1])).get("content").toString());
+            sendMessage(sessionPools.get(split[1]), "from[robot]: " + JSONObject.parseObject(HttpUtil.get("http://api.qingyunke.com/api.php?key=free&appid=0&msg=" + split[2])).get("content").toString());
         } else {
             sendInfo(split[0], "from[" + split[1] + "]: " + split[2]);
         }
