@@ -10,9 +10,13 @@
 <script type="text/javascript">
     var name = "${username}";
     var webSocket = new WebSocket("ws://localhost:8080/webSocket/${username}");
+
+    // 页面刷新时向服务端发送链接请求
     webSocket.onopen = function () {
         alert("恭喜[${username}]成功连接.");
     };
+
+    // 监听服务端推送的消息
     webSocket.onmessage = function (ev) {
         var newEle = document.createElement("p");
         var newEle1 = document.createElement("p");
@@ -32,6 +36,7 @@
         document.getElementById("sendInfo").appendChild(newEle).appendChild(document.createElement("br"));
     };
 
+    // 调用该方法向服务端发送消息
     function send() {
         var user = document.getElementById("inputUser").value;
         var msg = document.getElementById("input").value;

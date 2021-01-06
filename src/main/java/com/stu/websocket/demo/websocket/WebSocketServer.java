@@ -23,7 +23,13 @@ public class WebSocketServer {
 
     public static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
 
-    //发送消息
+    /**
+     * 调用该方法向客户端推送消息
+     *
+     * @param session
+     * @param message
+     * @throws IOException
+     */
     private synchronized void sendMessage(Session session, String message) throws IOException {
         if (session != null) {
             session.getBasicRemote().sendText(message);
@@ -40,7 +46,16 @@ public class WebSocketServer {
         }
     }
 
-    //建立连接成功调用
+    /**
+     * 建立连接成功时调用：index.jsp页面刷新的时候，通过如下代码调用该方法：
+     * var webSocket = new WebSocket("ws://localhost:8080/webSocket/${username}");
+     * webSocket.onopen = function () {
+     *      alert("恭喜[${username}]成功连接.");
+     * };
+     *
+     * @param session
+     * @param username
+     */
     @OnOpen
     public void onOpen(Session session, @PathParam(value = "username") String username) {
         sessionPools.put(username, session);
@@ -55,7 +70,12 @@ public class WebSocketServer {
         }
     }
 
-    //关闭连接时调用
+    /**
+     * 关闭连接时调用
+     *
+     * @param userName
+     * @throws IOException
+     */
     @OnClose
     public void onClose(@PathParam(value = "sid") String userName) throws IOException {
         sessionPools.remove(userName);
@@ -66,7 +86,12 @@ public class WebSocketServer {
         }
     }
 
-    //收到客户端信息
+    /**
+     * 收到客户端信息时调用该方法
+     *
+     * @param message
+     * @throws IOException
+     */
     @OnMessage
     public void onMessage(String message) throws IOException {
         System.out.println("收到消息: " + message);
@@ -79,7 +104,12 @@ public class WebSocketServer {
         }
     }
 
-    //错误时调用
+    /**
+     * 错误时调用该方法
+     *
+     * @param session
+     * @param throwable
+     */
     @OnError
     public void onError(Session session, Throwable throwable) {
         System.out.println("发生错误");
